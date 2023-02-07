@@ -10,15 +10,20 @@ def parse_xml(file_path):
 
 # create the table header
 def create_header(root, frame):
-    tk.Label(frame, text="Lane", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=0)
-    tk.Label(frame, text="Time", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=1)
+    tk.Label(frame, text="Car", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=1)
+    tk.Label(frame, text="Number", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=2)
+    tk.Label(frame, text="Result", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=3)
+    tk.Label(frame, text="ElapsedTime", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=4)
 
 # create the table body
 def create_body(root, frame):
-    for row_index, lane in enumerate(root.findall(".//Lane")):
-        tk.Label(frame, text=lane.attrib["id"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index + 1, column=0)
-        time = lane.find("ElapsedTime").text
-        tk.Label(frame, text=time, font=("Arial", 12), width=20, relief="solid").grid(row=row_index + 1, column=1)
+    row_index = 1
+    for lane in root.findall("Lane"):
+        tk.Label(frame, text=lane.attrib["Car"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=1)
+        tk.Label(frame, text=lane.attrib["Number"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=2)
+        tk.Label(frame, text=lane.attrib["Result"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=3)
+        tk.Label(frame, text=lane.attrib["ElapsedTime"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=4)
+        row_index += 1
 
 # refresh the table
 def refresh_table(file_path, root, frame):
