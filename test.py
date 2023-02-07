@@ -18,11 +18,11 @@ def create_header(root, frame):
 # create the table body
 def create_body(root, frame):
     row_index = 1
-    for lane in root.findall("Lane"):
-        tk.Label(frame, text=lane.attrib["Car"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=1)
-        tk.Label(frame, text=lane.attrib["Number"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=2)
-        tk.Label(frame, text=lane.attrib["Result"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=3)
-        tk.Label(frame, text=lane.attrib["ElapsedTime"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=4)
+    for lane in root.findall('Lane'):
+        tk.Label(frame, text=lane.get["Car"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=1)
+        tk.Label(frame, text=lane.get["Number"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=2)
+        tk.Label(frame, text=lane.get["Result"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=3)
+        tk.Label(frame, text=lane.get["ElapsedTime"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=4)
         row_index += 1
 
 # refresh the table
