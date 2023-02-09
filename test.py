@@ -19,6 +19,7 @@ def create_header(frame):
     tk.Label(frame, text="Car", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=4)
     tk.Label(frame, text="Result", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=5)
     tk.Label(frame, text="ElapsedTime", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=6)
+    tk.Label(frame, text="Speed (mph)", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=7)
     
 
 # create the table body
@@ -31,8 +32,13 @@ def create_body(root, frame):
             race_number = race.attrib["Number"]
             race_lanes = []
             for lane in race.findall('./Lanes/Lane'):
+                elapsed_time = float(lane.attrib["ElapsedTime"])
+                if elapsed_time == 0:  # skip lanes with 0 elapsed time
+                    continue
+                # calculate the speed in MPH
+                speed = round((((32 / elapsed_time) / 1.4667) * 25), 0)
                 lane_info = {"Car": lane.attrib["Car"], "Number": lane.attrib["Number"],
-                             "Result": lane.attrib["Result"], "ElapsedTime": lane.attrib["ElapsedTime"]}
+                             "Result": lane.attrib["Result"], "ElapsedTime": lane.attrib["ElapsedTime"], "Speed": speed}
                 race_lanes.append(lane_info)
             races.append({"Number": race_number, "Lanes": race_lanes})
         
@@ -46,6 +52,7 @@ def create_body(root, frame):
         tk.Label(frame, text=lane["Car"], font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=4)
         tk.Label(frame, text=lane["Result"], font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=5)
         tk.Label(frame, text=lane["ElapsedTime"], font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=6)
+        tk.Label(frame, text=str(lane["Speed"]), font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=7)  # add the speed column
         row_index += 1
 
 
