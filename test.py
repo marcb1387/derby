@@ -2,6 +2,8 @@ import xml.etree.ElementTree as ET
 import tkinter as tk
 import time
 from tkinter import filedialog
+import tkinter.ttk as ttk
+
 
 # parse the XML document
 def parse_xml(file_path):
@@ -11,12 +13,12 @@ def parse_xml(file_path):
 
 # create the table header
 def create_header(frame):
-    tk.Label(frame, text="Heat", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=1)
-    tk.Label(frame, text="Race", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=2)
-    tk.Label(frame, text="Lane Number", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=3)
-    tk.Label(frame, text="Car", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=4)
-    tk.Label(frame, text="Result", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=5)
-    tk.Label(frame, text="ElapsedTime", bg="grey", font=("Arial", 12), width=20, relief="solid").grid(row=0, column=6)
+    tk.Label(frame, text="Heat", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=1)
+    tk.Label(frame, text="Race", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=2)
+    tk.Label(frame, text="Lane Number", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=3)
+    tk.Label(frame, text="Car", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=4)
+    tk.Label(frame, text="Result", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=5)
+    tk.Label(frame, text="ElapsedTime", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=6)
     
 
 # create the table body
@@ -38,12 +40,12 @@ def create_body(root, frame):
     row_index = 1
 
     for lane in last_race["Lanes"]:
-        tk.Label(frame, text=heat_count, font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=1)
-        tk.Label(frame, text=last_race["Number"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=2)
-        tk.Label(frame, text=lane["Number"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=3)
-        tk.Label(frame, text=lane["Car"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=4)
-        tk.Label(frame, text=lane["Result"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=5)
-        tk.Label(frame, text=lane["ElapsedTime"], font=("Arial", 12), width=20, relief="solid").grid(row=row_index, column=6)
+        tk.Label(frame, text=heat_count, font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=1)
+        tk.Label(frame, text=last_race["Number"], font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=2)
+        tk.Label(frame, text=lane["Number"], font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=3)
+        tk.Label(frame, text=lane["Car"], font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=4)
+        tk.Label(frame, text=lane["Result"], font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=5)
+        tk.Label(frame, text=lane["ElapsedTime"], font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=6)
         row_index += 1
 
 
@@ -73,5 +75,12 @@ def choose_file():
 # create the root window
 root_window = tk.Tk()
 root_window.title("Derby Data Analyzer")
+font_size_label = tk.Label(root_window, text="Choose font size:")
+font_size_label.pack()
+font_size = tk.StringVar()
+font_size_combo = ttk.Combobox(root_window, textvariable=font_size)
+font_size_combo['values'] = ('12', '14', '16', '18', '20', '22', '24')
+font_size_combo.current(3)
+font_size_combo.pack()
 tk.Button(root_window, text="Choose DBY File", command=choose_file).pack()
 root_window.mainloop()
