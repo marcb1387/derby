@@ -19,7 +19,7 @@ def create_header(frame):
     tk.Label(frame, text="Scout Name", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=4)
     tk.Label(frame, text="Car", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=5)
     tk.Label(frame, text="Result", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=6)
-    tk.Label(frame, text="ElapsedTime", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=7)
+    tk.Label(frame, text="Elapsed Time", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=7)
     tk.Label(frame, text="Speed (mph)", bg="grey", font=("Arial", font_size.get()), width=20, relief="solid").grid(row=0, column=8)
     
 
@@ -66,6 +66,12 @@ def create_body(root, frame):
         tk.Label(frame, text=lane["ElapsedTime"], font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=7)
         tk.Label(frame, text=str(lane["Speed"]), font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=8)  # add the speed column
         row_index += 1
+        def on_resize(event):
+            for i in range(1, row_index):
+                for j in range(1, 9):
+                    frame.grid_columnconfigure(j, weight=1, minsize=event.width / 8)
+                    frame.grid_rowconfigure(i, weight=1, minsize=event.height / row_index)
+        frame.bind("<Configure>", on_resize)
 
 
 
