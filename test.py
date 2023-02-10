@@ -29,7 +29,7 @@ def create_body(root, frame):
     for heat in root.findall('./Heats/Heat'):
         heat_count += 1
         for race in heat.findall('./Races/Race'):
-            race_number = race.attrib["Number"]
+            race_number = int(race.attrib["Number"])
             race_lanes = []
             for lane in race.findall('./Lanes/Lane'):
                 elapsed_time = float(lane.attrib["ElapsedTime"])
@@ -41,10 +41,18 @@ def create_body(root, frame):
                              "Result": lane.attrib["Result"], "ElapsedTime": lane.attrib["ElapsedTime"], "Speed": speed}
                 race_lanes.append(lane_info)
             races.append({"Number": race_number, "Lanes": race_lanes})
-        
-    last_race = races[-1]
-    row_index = 1
 
+    # Find the last race with an elapsed_time greater than 0
+    last_race = None
+    for race in reversed(races):
+        if race["Lanes"]:
+            last_race = race
+            break
+
+    if last_race is None:
+        return
+
+    row_index = 1
     for lane in last_race["Lanes"]:
         tk.Label(frame, text=heat_count, font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=1)
         tk.Label(frame, text=last_race["Number"], font=("Arial", font_size.get()), width=20, relief="solid").grid(row=row_index, column=2)
